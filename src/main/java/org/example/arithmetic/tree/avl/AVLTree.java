@@ -6,14 +6,14 @@ package org.example.arithmetic.tree.avl;
  */
 public class AVLTree {
 
-    private Node root;
+    public Node root;
 
     /**
      * 插入操作的入口
      * @param value
      */
     public void insert(long value){
-        root = insert(root, value);
+        this.root = insert(root, value);
     }
 
     /**
@@ -28,7 +28,7 @@ public class AVLTree {
         }
         if(value < subTree.value){
             //插入到左子树
-            subTree = insert(subTree.left, value);
+            subTree.left = insert(subTree.left, value);
             if(unbalanceTest(subTree)){
                 //插入造成失衡
                 if(value < subTree.left.value){
@@ -42,7 +42,7 @@ public class AVLTree {
 
         } else if(value > subTree.value){
             //插入到右子树
-            subTree = insert(subTree.right, value);
+            subTree.right = insert(subTree.right, value);
             if(unbalanceTest(subTree)){
                 if(value > subTree.right.value){
                     //RR型失衡
@@ -59,8 +59,9 @@ public class AVLTree {
         return subTree;
     }
 
-    private Node rightLeftRotation(Node subTree) {
-        return null;
+    private Node rightLeftRotation(Node k1) {
+        k1.right = rightRightRotation(k1.right);
+        return leftLeftRotation(k1);
     }
 
     private Node rightRightRotation(Node k1) {
@@ -71,8 +72,9 @@ public class AVLTree {
         return k2;
     }
 
-    private Node leftRightRotation(Node subTree) {
-        return null;
+    private Node leftRightRotation(Node k3) {
+        k3.left = rightRightRotation(k3.left);
+        return rightRightRotation(k3);
     }
 
     private Node leftLeftRotation(Node k2) {
